@@ -10,8 +10,8 @@ The project requires Node-RED, Meshcore-CLI, Meshtastic-CLI and an mqtt broker (
 - EQMX: https://docs.exmx.com/en/eqmx/latest/deploy/install-docker.html
 
 # Radio configuration
-As of right now the only major configuration to make is to set up mqtt on the meshtastic side node and point it at the broker. Currently the Root topic is 89523/public, however this will change in later updates, so keep an eye out.
-
+- As of right now the only major configuration to make is to set up mqtt on the meshtastic side node and point it at the broker. Currently the Root topic is 89523/public, however this will change in later updates, so keep an eye out.
+- For the stability of the mesh.. and everyone's sanity, both radios are set with a specific channel for meshbridge. This way MeshBridge can be muted or opted out from. It also prevents routing all mesh traffic through the bridge which would slow everyone down.
 # Message routing
 ## MT ---> MC
 When the MC node recieves a message it's forewarded to mqtt. Node-RED sees the packet on mqtt and formats it. Node red then calls meshcore-cli to send the message to the mc node. It also locks out bluetooth to mc ---> mt while sending
