@@ -27,3 +27,5 @@ Every 20 seconds node-RED calls meshcore-cli to check for messages. If any are f
 # Advantages
 - It works... sort of. (Eventually I want to write something more robust in python) 
 
+# ChangeLog
+- 2/20/26: Added anylitics for number off messages bridged as well as number of errors. Fixed bug where numbers wouldnt foreward from mt -> mc
