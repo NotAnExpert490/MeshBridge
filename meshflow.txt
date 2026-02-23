@@ -1,4 +1,4 @@
-[
+[[
     {
         "id": "2ed751de9360a76e",
         "type": "tab",
@@ -6,6 +6,68 @@
         "disabled": false,
         "info": "",
         "env": []
+    },
+    {
+        "id": "e02c01c3309f9b2f",
+        "type": "mqtt-broker",
+        "name": "public mqtt",
+        "broker": "192.168.1.22",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "77dff47ade8636a0",
+        "type": "mqtt-broker",
+        "name": "mqtt",
+        "broker": "192.168.1.22",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
     },
     {
         "id": "8f889cae95fa95e6",
@@ -20,7 +82,7 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 240,
+        "x": 360,
         "y": 240,
         "wires": [
             [
@@ -50,7 +112,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 430,
+        "x": 610,
         "y": 240,
         "wires": [
             [
@@ -63,7 +125,7 @@
         "id": "6d84eb4d21fa828a",
         "type": "exec",
         "z": "2ed751de9360a76e",
-        "command": "/home/clockwork/.local/bin/meshcli chan 1 \"",
+        "command": "/home/clockwork/.local/bin/meshcli chan 1 ",
         "addpay": "payload",
         "append": "",
         "useSpawn": "false",
@@ -71,7 +133,7 @@
         "winHide": false,
         "oldrc": false,
         "name": "mcsend",
-        "x": 1620,
+        "x": 2000,
         "y": 240,
         "wires": [
             [],
@@ -97,7 +159,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1780,
+        "x": 2440,
         "y": 240,
         "wires": []
     },
@@ -132,12 +194,12 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1080,
+        "x": 1220,
         "y": 240,
         "wires": [
             [
                 "5cb9a9c0aec4d79d",
-                "88618ce2c1eb1ce0"
+                "4049bd7ad91ccc09"
             ]
         ]
     },
@@ -154,7 +216,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1250,
+        "x": 1230,
         "y": 160,
         "wires": []
     },
@@ -197,7 +259,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1430,
+        "x": 1210,
         "y": 540,
         "wires": []
     },
@@ -205,7 +267,7 @@
         "id": "b67c1076992af61b",
         "type": "inject",
         "z": "2ed751de9360a76e",
-        "name": "Manual",
+        "name": "Manual fetch",
         "props": [
             {
                 "p": "payload"
@@ -222,11 +284,11 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 410,
+        "x": 390,
         "y": 500,
         "wires": [
             [
-                "fbd455f8cdf4031c"
+                "53e4f2d40723ce2a"
             ]
         ]
     },
@@ -242,7 +304,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1440,
+        "x": 1580,
         "y": 440,
         "wires": [
             [
@@ -274,7 +336,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1550,
+        "x": 1810,
         "y": 300,
         "wires": [
             [
@@ -294,7 +356,7 @@
         "winHide": false,
         "oldrc": false,
         "name": "MT send",
-        "x": 1780,
+        "x": 2000,
         "y": 440,
         "wires": [
             [],
@@ -329,7 +391,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 370,
-        "y": 460,
+        "y": 440,
         "wires": [
             [
                 "53e4f2d40723ce2a"
@@ -364,7 +426,7 @@
             [],
             [
                 "44e09bc9d00b81d6",
-                "c319fa727c3ce3bc"
+                "820a2a40f9159c8e"
             ]
         ]
     },
@@ -373,14 +435,14 @@
         "type": "function",
         "z": "2ed751de9360a76e",
         "name": "Format",
-        "func": "var buff = msg.payload\nmsg.payload = buff + '\"'\nreturn msg;\n",
+        "func": "var buff = msg.payload\nmsg.payload = '\"' + buff + '\"'\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1220,
+        "x": 1580,
         "y": 240,
         "wires": [
             [
@@ -405,7 +467,7 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1620,
+        "x": 1800,
         "y": 440,
         "wires": [
             [
@@ -431,7 +493,7 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1400,
+        "x": 1820,
         "y": 240,
         "wires": [
             [
@@ -459,7 +521,7 @@
         "allowrate": false,
         "outputs": 1,
         "x": 610,
-        "y": 460,
+        "y": 440,
         "wires": [
             [
                 "f783a2f72e7bd6f6"
@@ -509,15 +571,21 @@
                 "vt": "str"
             },
             {
+                "t": "eq",
+                "v": "4146000508",
+                "vt": "str"
+            },
+            {
                 "t": "else"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 2,
-        "x": 630,
+        "outputs": 3,
+        "x": 810,
         "y": 240,
         "wires": [
+            [],
             [],
             [
                 "7e90b1d1fad46aeb"
@@ -536,7 +604,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 910,
+        "x": 1030,
         "y": 240,
         "wires": [
             [
@@ -557,8 +625,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2120,
-        "y": 580,
+        "x": 2560,
+        "y": 560,
         "wires": [
             [
                 "20f819abb8dd1dc5"
@@ -569,7 +637,7 @@
         "id": "5d44865dc87ccb9f",
         "type": "switch",
         "z": "2ed751de9360a76e",
-        "name": "",
+        "name": "isError",
         "property": "payload.code",
         "propertyType": "msg",
         "rules": [
@@ -585,8 +653,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 1930,
-        "y": 580,
+        "x": 2410,
+        "y": 560,
         "wires": [
             [],
             [
@@ -598,7 +666,7 @@
         "id": "20f819abb8dd1dc5",
         "type": "debug",
         "z": "2ed751de9360a76e",
-        "name": "Status output 3",
+        "name": "Error report",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -607,15 +675,15 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2300,
-        "y": 580,
+        "x": 2730,
+        "y": 560,
         "wires": []
     },
     {
         "id": "03a93b65aea3304e",
         "type": "switch",
         "z": "2ed751de9360a76e",
-        "name": "",
+        "name": "isConnIssue",
         "property": "payload",
         "propertyType": "msg",
         "rules": [
@@ -631,8 +699,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 1750,
-        "y": 620,
+        "x": 2430,
+        "y": 520,
         "wires": [
             [
                 "5d44865dc87ccb9f"
@@ -644,7 +712,7 @@
         "id": "38891239840e0b79",
         "type": "inject",
         "z": "2ed751de9360a76e",
-        "name": "",
+        "name": "onStart / reset stats",
         "props": [
             {
                 "p": "payload"
@@ -662,7 +730,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 370,
-        "y": 600,
+        "y": 660,
         "wires": [
             [
                 "b171c45c4b4f2758"
@@ -682,7 +750,7 @@
         "finalize": "",
         "libs": [],
         "x": 550,
-        "y": 600,
+        "y": 660,
         "wires": [
             []
         ]
@@ -699,7 +767,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1630,
+        "x": 2010,
         "y": 160,
         "wires": [
             [
@@ -719,8 +787,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1810,
-        "y": 340,
+        "x": 2010,
+        "y": 320,
         "wires": [
             [
                 "5bac026efbc7af96"
@@ -740,7 +808,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1840,
+        "x": 2440,
         "y": 160,
         "wires": []
     },
@@ -757,8 +825,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2020,
-        "y": 340,
+        "x": 2440,
+        "y": 320,
         "wires": []
     },
     {
@@ -774,8 +842,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1980,
-        "y": 420,
+        "x": 2440,
+        "y": 400,
         "wires": []
     },
     {
@@ -791,8 +859,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1040,
-        "y": 320,
+        "x": 1220,
+        "y": 300,
         "wires": []
     },
     {
@@ -802,8 +870,8 @@
         "name": "",
         "scope": null,
         "uncaught": false,
-        "x": 1920,
-        "y": 640,
+        "x": 2440,
+        "y": 620,
         "wires": [
             [
                 "4903ce17e6109831"
@@ -811,34 +879,410 @@
         ]
     },
     {
-        "id": "e02c01c3309f9b2f",
-        "type": "mqtt-broker",
-        "name": "public mqtt",
-        "broker": "192.168.1.22",
-        "port": "1883",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
+        "id": "820a2a40f9159c8e",
+        "type": "switch",
+        "z": "2ed751de9360a76e",
+        "name": "isCMD",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "#!",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "$help",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "$bridgestat",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "$bbshelp",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "$ping",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 6,
+        "x": 1390,
+        "y": 460,
+        "wires": [
+            [
+                "a436b6bb9990c7b1"
+            ],
+            [
+                "b3d7d62fa3f60336"
+            ],
+            [
+                "88b458c8b4352217"
+            ],
+            [
+                "d4f048b2b797c11f"
+            ],
+            [
+                "2769697beed08e60"
+            ],
+            [
+                "c319fa727c3ce3bc"
+            ]
+        ]
+    },
+    {
+        "id": "a436b6bb9990c7b1",
+        "type": "split",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "splt": "#!",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 1390,
+        "y": 380,
+        "wires": [
+            [
+                "c51afb07d2413be9"
+            ]
+        ]
+    },
+    {
+        "id": "c51afb07d2413be9",
+        "type": "switch",
+        "z": "2ed751de9360a76e",
+        "name": "Reject noise",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "ch1",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1590,
+        "y": 380,
+        "wires": [
+            [],
+            [
+                "5e851608640c15e9"
+            ]
+        ]
+    },
+    {
+        "id": "5e851608640c15e9",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "To STR",
+        "func": "var buff = msg.payload\nvar str = buff.toString()\nmsg.payload = str\n//msg.payload = str\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1780,
+        "y": 380,
+        "wires": [
+            [
+                "28d2674746d91cad",
+                "964adfd186233feb"
+            ]
+        ]
+    },
+    {
+        "id": "28d2674746d91cad",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "cd /home/clockwork/MeshBridge && ./mtsend.sh",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 2120,
+        "y": 380,
+        "wires": [
+            [
+                "021966e3afacc321"
+            ],
+            [
+                "021966e3afacc321",
+                "03a93b65aea3304e"
+            ],
+            [
+                "5d44865dc87ccb9f"
+            ]
+        ]
+    },
+    {
+        "id": "88b458c8b4352217",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "bridgestat",
+        "func": "var errors = flow.get(\"errorCt\")\nvar gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\nvar totalGated = gMT + gMC\nvar errorRate = errors / totalGated\nmsg.payload = '\"' + \"TotG: \" + totalGated + \" | gMT: \" + gMT + \" | gMC: \" + gMC + \" | err: \" + errors + \" | err/msg: \" + errorRate + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1580,
+        "y": 720,
+        "wires": [
+            [
+                "5558b3b4753fe3fb"
+            ]
+        ]
+    },
+    {
+        "id": "eaf6399bd5142ce9",
+        "type": "debug",
+        "z": "2ed751de9360a76e",
+        "name": "CMDout",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2120,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "4049bd7ad91ccc09",
+        "type": "switch",
+        "z": "2ed751de9360a76e",
+        "name": "isCMD",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "$bridgestat",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "$help",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "$bbshelp",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "$ping",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 5,
+        "x": 1390,
+        "y": 240,
+        "wires": [
+            [
+                "88b458c8b4352217"
+            ],
+            [
+                "b3d7d62fa3f60336"
+            ],
+            [
+                "d4f048b2b797c11f"
+            ],
+            [
+                "2769697beed08e60"
+            ],
+            [
+                "88618ce2c1eb1ce0"
+            ]
+        ]
+    },
+    {
+        "id": "5561b814b62b3db6",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1780,
+        "y": 180,
+        "wires": [
+            [
+                "ec5026dc550dd5a1"
+            ]
+        ]
+    },
+    {
+        "id": "b3d7d62fa3f60336",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "help",
+        "func": "msg.payload = '\"' + \"Welcome to Hot mesh bridge!\\nCommands':'\\n'$'bridgestat':' Shows stats about bridge\\n'#''!'cmd':' List of commands on bbs\\n'$'bbshelp':' More info on #! usage\\n'$'ping':' Pings bridge\\nOtherwise type to bridge and have fun! Keep in mind, sometimes messages can take up to 30 seconds to bridge.\" + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1570,
+        "y": 680,
+        "wires": [
+            [
+                "5558b3b4753fe3fb"
+            ]
+        ]
+    },
+    {
+        "id": "5558b3b4753fe3fb",
+        "type": "split",
+        "z": "2ed751de9360a76e",
+        "name": "Chunker",
+        "splt": "100",
+        "spltType": "len",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "property": "payload",
+        "x": 1780,
+        "y": 600,
+        "wires": [
+            [
+                "be54d6c017ccaad5"
+            ]
+        ]
+    },
+    {
+        "id": "47d7b24ff08e7c02",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1600,
+        "y": 540,
+        "wires": [
+            [
+                "385bc85854a5ea58",
+                "5561b814b62b3db6",
+                "454de3990841c3ad",
+                "964adfd186233feb"
+            ]
+        ]
+    },
+    {
+        "id": "be54d6c017ccaad5",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "function 1",
+        "func": "var buff = msg.payload\nbuff = buff.toString()\nbuff = buff.trim()\nif (!buff.startsWith('\"')) {\n    buff = '\"' + buff\n}\nif (!buff.endsWith('\"')){\n    buff = buff + '\"'\n}\nmsg.payload = buff\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1920,
+        "y": 600,
+        "wires": [
+            [
+                "47d7b24ff08e7c02",
+                "eaf6399bd5142ce9"
+            ]
+        ]
+    },
+    {
+        "id": "d4f048b2b797c11f",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "bbshelp",
+        "func": "msg.payload = '\"' + \"The #! moddifier formats the bridged message in a way that the bbs can understand. Simply add #! to the beginning of anything #!cmd says you can do. Example #!wx. If the command is longer than 1 word use quotes around all words after first. Example #!wiki \" + '\"' + \"mesh networking\" + '\"' + \" or #!bbsread \" + '\"' + \"#3\" + '\"' + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1580,
+        "y": 760,
+        "wires": [
+            [
+                "5558b3b4753fe3fb"
+            ]
+        ]
+    },
+    {
+        "id": "2769697beed08e60",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "ping",
+        "func": "msg.payload = '\"' + \"Bridge listening!\" + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1570,
+        "y": 800,
+        "wires": [
+            [
+                "5558b3b4753fe3fb"
+            ]
+        ]
     }
+]
 ]
