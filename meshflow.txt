@@ -1,4 +1,4 @@
-[[
+[
     {
         "id": "2ed751de9360a76e",
         "type": "tab",
@@ -136,7 +136,9 @@
         "x": 2000,
         "y": 240,
         "wires": [
-            [],
+            [
+                "6c8fbbe163cac980"
+            ],
             [
                 "d93fda5ff0cb19c5",
                 "03a93b65aea3304e"
@@ -155,11 +157,11 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2440,
+        "x": 2460,
         "y": 240,
         "wires": []
     },
@@ -629,7 +631,8 @@
         "y": 560,
         "wires": [
             [
-                "20f819abb8dd1dc5"
+                "71919494ac6b61a4",
+                "06cb7a59122d0de8"
             ]
         ]
     },
@@ -675,8 +678,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2730,
-        "y": 560,
+        "x": 2930,
+        "y": 520,
         "wires": []
     },
     {
@@ -752,7 +755,9 @@
         "x": 550,
         "y": 660,
         "wires": [
-            []
+            [
+                "6e07e58f5cf43f9b"
+            ]
         ]
     },
     {
@@ -771,7 +776,8 @@
         "y": 160,
         "wires": [
             [
-                "7ba260e42f95fb58"
+                "7ba260e42f95fb58",
+                "b01bb036e504e605"
             ]
         ]
     },
@@ -791,7 +797,8 @@
         "y": 320,
         "wires": [
             [
-                "5bac026efbc7af96"
+                "5bac026efbc7af96",
+                "b01bb036e504e605"
             ]
         ]
     },
@@ -1283,6 +1290,495 @@
                 "5558b3b4753fe3fb"
             ]
         ]
+    },
+    {
+        "id": "6c8fbbe163cac980",
+        "type": "switch",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "BLE connection asked (default behaviour)",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 2150,
+        "y": 220,
+        "wires": [
+            [
+                "aae5c12c38cda4fb"
+            ],
+            [
+                "d93fda5ff0cb19c5"
+            ]
+        ]
+    },
+    {
+        "id": "aae5c12c38cda4fb",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "ErrorCt",
+        "func": "var gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\nvar errors = flow.get(\"errorCt\")\nerrors ++\ngMC = gMC - 1\nflow.set(\"gatedMC,gMC\")\nflow.set(\"errorCt\", errors)\nvar totalGated = gMT + gMC\nvar errorRate\nif(totalGated != 0){errorRate = errors / totalGated}\nelse{errorRate = errors}\nmsg.gateTot = totalGated\nmsg.gatedmt = gMT\nmsg.gatedmc = gMC\nmsg.errors = errors\nmsg.errorRate = errorRate\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2280,
+        "y": 200,
+        "wires": [
+            [
+                "d93fda5ff0cb19c5",
+                "71919494ac6b61a4",
+                "06cb7a59122d0de8"
+            ]
+        ]
+    },
+    {
+        "id": "71919494ac6b61a4",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "6",
+        "nbRateUnits": "3",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 2,
+        "x": 2760,
+        "y": 560,
+        "wires": [
+            [
+                "20f819abb8dd1dc5"
+            ],
+            [
+                "20f819abb8dd1dc5",
+                "2161ebe85280d140"
+            ]
+        ]
+    },
+    {
+        "id": "2161ebe85280d140",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "Error announce",
+        "func": "msg.payload = '\"' + \"Excessive errors detected. Attempting recovery mode.\" + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2760,
+        "y": 620,
+        "wires": [
+            [
+                "5558b3b4753fe3fb",
+                "b36585ce8c9b9704"
+            ]
+        ]
+    },
+    {
+        "id": "d6901ab8c9615281",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "aiov2_ctl LORA off && aiov2_ctl USB off && curl -d \"Meshbridge entered recovery mode\" notify.dewlab.io/mesh",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 3500,
+        "y": 620,
+        "wires": [
+            [],
+            [],
+            [
+                "806c9d14d5c99901"
+            ]
+        ]
+    },
+    {
+        "id": "0bbfe77e3443a836",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "20",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 3180,
+        "y": 560,
+        "wires": [
+            [
+                "d6901ab8c9615281"
+            ]
+        ]
+    },
+    {
+        "id": "806c9d14d5c99901",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 3180,
+        "y": 680,
+        "wires": [
+            [
+                "1bc5b96bba1423e0"
+            ]
+        ]
+    },
+    {
+        "id": "1bc5b96bba1423e0",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "aiov2_ctl LORA on && aiov2_ctl USB on",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 3280,
+        "y": 740,
+        "wires": [
+            [],
+            [],
+            [
+                "24c2b3f1bc8713c8"
+            ]
+        ]
+    },
+    {
+        "id": "24c2b3f1bc8713c8",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 3180,
+        "y": 800,
+        "wires": [
+            [
+                "67ee4d4e59daf7c5"
+            ]
+        ]
+    },
+    {
+        "id": "67ee4d4e59daf7c5",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "Recover announce",
+        "func": "msg.payload = '\"' + \"Nodes rebooted\" + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3210,
+        "y": 860,
+        "wires": [
+            [
+                "5558b3b4753fe3fb",
+                "a0634a412eef5874"
+            ]
+        ]
+    },
+    {
+        "id": "a0634a412eef5874",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "3",
+        "nbRateUnits": "10",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 2,
+        "x": 3200,
+        "y": 920,
+        "wires": [
+            [
+                "124b9aedf7f29b73"
+            ],
+            [
+                "10f59b65a029a333",
+                "124b9aedf7f29b73"
+            ]
+        ]
+    },
+    {
+        "id": "10f59b65a029a333",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "Error announce",
+        "func": "msg.payload = '\"' + \"Recovery mode failed. Rebooting pi.\" + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3200,
+        "y": 980,
+        "wires": [
+            [
+                "9cc908f1bf7c6dfb"
+            ]
+        ]
+    },
+    {
+        "id": "124b9aedf7f29b73",
+        "type": "debug",
+        "z": "2ed751de9360a76e",
+        "name": "Error report",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3450,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "6e07e58f5cf43f9b",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "aiov2_ctl LORA on && aiov2_ctl USB on && curl -d \"Meshbridge online\" notify.dewlab.io/mesh",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 960,
+        "y": 660,
+        "wires": [
+            [],
+            [],
+            [
+                "954a854a88707fb5"
+            ]
+        ]
+    },
+    {
+        "id": "9cc908f1bf7c6dfb",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "20",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 3180,
+        "y": 1040,
+        "wires": [
+            [
+                "1ead7b6f971e3081"
+            ]
+        ]
+    },
+    {
+        "id": "1ead7b6f971e3081",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "curl -d \"Meshbridge is rebooting\" notify.dewlab.io/mesh && reboot",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 3360,
+        "y": 1100,
+        "wires": [
+            [
+                "124b9aedf7f29b73"
+            ],
+            [
+                "124b9aedf7f29b73"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "e071919ed707fe84",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "Hello world",
+        "func": "msg.payload = '\"' + \"Bridge online. Hello Mesh!\" + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1210,
+        "y": 780,
+        "wires": [
+            [
+                "5558b3b4753fe3fb"
+            ]
+        ]
+    },
+    {
+        "id": "954a854a88707fb5",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "20",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1200,
+        "y": 720,
+        "wires": [
+            [
+                "e071919ed707fe84"
+            ]
+        ]
+    },
+    {
+        "id": "b01bb036e504e605",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "curl -d \"Message bridged\" notify.dewlab.io/mesh",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 2820,
+        "y": 240,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "06cb7a59122d0de8",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "curl -d \"Error detected!\" notify.dewlab.io/mesh",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 2810,
+        "y": 320,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "b36585ce8c9b9704",
+        "type": "delay",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "2",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 2980,
+        "y": 620,
+        "wires": [
+            [
+                "0bbfe77e3443a836"
+            ]
+        ]
     }
-]
 ]
