@@ -86,7 +86,8 @@
         "y": 240,
         "wires": [
             [
-                "1b21e51d739bfe17"
+                "1b21e51d739bfe17",
+                "60c9cfa4cff20a54"
             ]
         ]
     },
@@ -112,13 +113,15 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 610,
+        "x": 570,
         "y": 240,
         "wires": [
             [
-                "0e0046dc793e8540"
+                "62cec989dd9de96a"
             ],
-            []
+            [
+                "62cec989dd9de96a"
+            ]
         ]
     },
     {
@@ -385,7 +388,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "20",
+        "repeat": "21",
         "crontab": "",
         "once": true,
         "onceDelay": "10",
@@ -425,7 +428,9 @@
         "x": 1210,
         "y": 440,
         "wires": [
-            [],
+            [
+                "820a2a40f9159c8e"
+            ],
             [
                 "44e09bc9d00b81d6",
                 "820a2a40f9159c8e"
@@ -534,7 +539,7 @@
         "id": "f783a2f72e7bd6f6",
         "type": "switch",
         "z": "2ed751de9360a76e",
-        "name": "Scrub metadata",
+        "name": "Scrub wait flag",
         "property": "payload",
         "propertyType": "msg",
         "rules": [
@@ -584,7 +589,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 3,
-        "x": 810,
+        "x": 870,
         "y": 240,
         "wires": [
             [],
@@ -1369,7 +1374,7 @@
             ],
             [
                 "20f819abb8dd1dc5",
-                "2161ebe85280d140"
+                "b36585ce8c9b9704"
             ]
         ]
     },
@@ -1385,12 +1390,12 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2760,
-        "y": 620,
+        "x": 3000,
+        "y": 580,
         "wires": [
             [
                 "5558b3b4753fe3fb",
-                "b36585ce8c9b9704"
+                "0bbfe77e3443a836"
             ]
         ]
     },
@@ -1494,7 +1499,7 @@
         "z": "2ed751de9360a76e",
         "name": "",
         "pauseType": "delay",
-        "timeout": "5",
+        "timeout": "10",
         "timeoutUnits": "seconds",
         "rate": "1",
         "nbRateUnits": "1",
@@ -1542,7 +1547,7 @@
         "pauseType": "rate",
         "timeout": "5",
         "timeoutUnits": "seconds",
-        "rate": "3",
+        "rate": "2",
         "nbRateUnits": "10",
         "rateUnits": "minute",
         "randomFirst": "1",
@@ -1558,27 +1563,7 @@
                 "124b9aedf7f29b73"
             ],
             [
-                "10f59b65a029a333",
-                "124b9aedf7f29b73"
-            ]
-        ]
-    },
-    {
-        "id": "10f59b65a029a333",
-        "type": "function",
-        "z": "2ed751de9360a76e",
-        "name": "Error announce",
-        "func": "msg.payload = '\"' + \"Recovery mode failed. Rebooting pi.\" + '\"'\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 3200,
-        "y": 980,
-        "wires": [
-            [
+                "124b9aedf7f29b73",
                 "9cc908f1bf7c6dfb"
             ]
         ]
@@ -1640,35 +1625,11 @@
         "allowrate": false,
         "outputs": 1,
         "x": 3180,
-        "y": 1040,
+        "y": 980,
         "wires": [
             [
-                "1ead7b6f971e3081"
+                "af3b6d88e95cd16b"
             ]
-        ]
-    },
-    {
-        "id": "1ead7b6f971e3081",
-        "type": "exec",
-        "z": "2ed751de9360a76e",
-        "command": "curl -d \"Meshbridge is rebooting\" notify.dewlab.io/mesh && reboot",
-        "addpay": "",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "",
-        "x": 3360,
-        "y": 1100,
-        "wires": [
-            [
-                "124b9aedf7f29b73"
-            ],
-            [
-                "124b9aedf7f29b73"
-            ],
-            []
         ]
     },
     {
@@ -1773,12 +1734,209 @@
         "drop": true,
         "allowrate": false,
         "outputs": 1,
-        "x": 2980,
+        "x": 2760,
         "y": 620,
         "wires": [
             [
-                "0bbfe77e3443a836"
+                "2161ebe85280d140"
             ]
+        ]
+    },
+    {
+        "id": "60c9cfa4cff20a54",
+        "type": "trigger",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "op1": "",
+        "op2": "No mqtt detected",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "90",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 550,
+        "y": 300,
+        "wires": [
+            [
+                "4903ce17e6109831"
+            ]
+        ]
+    },
+    {
+        "id": "c4101ae15abc8a76",
+        "type": "inject",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 330,
+        "y": 300,
+        "wires": [
+            [
+                "60c9cfa4cff20a54"
+            ]
+        ]
+    },
+    {
+        "id": "af3b6d88e95cd16b",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "cd /home/clockwork/MeshBridge && ./recovery.sh",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 3310,
+        "y": 1040,
+        "wires": [
+            [
+                "124b9aedf7f29b73"
+            ],
+            [
+                "124b9aedf7f29b73"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "95e4f63dea6fd28f",
+        "type": "inject",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3600",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 350,
+        "y": 740,
+        "wires": [
+            [
+                "d7f24957692cc450"
+            ]
+        ]
+    },
+    {
+        "id": "d7f24957692cc450",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "curl -d \"System stable, Disabling safe mode\" notify.dewlab.io/mesh && rm /home/clockwork/MeshBridge/lockout.txt && echo \"System stable\"",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Running stable",
+        "x": 540,
+        "y": 740,
+        "wires": [
+            [
+                "af2c161ce9925dd8"
+            ],
+            [
+                "af2c161ce9925dd8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "af2c161ce9925dd8",
+        "type": "debug",
+        "z": "2ed751de9360a76e",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "5f580facfd3ab1e5",
+        "type": "comment",
+        "z": "2ed751de9360a76e",
+        "name": "Remove to unbridge public",
+        "info": "",
+        "x": 750,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "55869d481527bf7d",
+        "type": "comment",
+        "z": "2ed751de9360a76e",
+        "name": "Remove to unbridge public",
+        "info": "",
+        "x": 1210,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "62cec989dd9de96a",
+        "type": "switch",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "text",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 730,
+        "y": 240,
+        "wires": [
+            [
+                "0e0046dc793e8540"
+            ],
+            []
         ]
     }
 ]

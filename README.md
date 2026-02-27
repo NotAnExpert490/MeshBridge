@@ -47,5 +47,5 @@ By default the flow adds the messaging nodes name on node id in the case of mt -
 - 2/20/26 -0.0.1: Added anylitics for number of messages bridged as well as number of errors. Fixed bug where numbers wouldn't foreward from mt -> mc
 - 2/22/26 -0.0.2: Added #! commands on mc2mt, added $ping, added $bridgestat, added $help, added $bbshelp, added sendmt.sh to aid in sending #! commands, added mcsend.sh (not used yet).
 - 2/24/26 -0.0.3: Fixed bug! Sometimes on mcsend the bluetooth will fail to connect but still return 0, because of this it would fail to bridge but still report a success. Added a module to read the direct output of mcsend to look for errors. Also added routines for repeated failures that will attempt node reboot. If problem presists it will attempt rpi reboot.
-
+- 2/27/26 -0.0.4: Tweaked reboot handler to be less panicky on the mesh, Moved pi reboot to recovery.sh to check for a previous reboot and cancel infinite boot loops before they get out of hand.
 
