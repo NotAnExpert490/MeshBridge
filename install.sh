@@ -1,10 +1,4 @@
 !/bin/bash
-echo "Creating user mesh with password bridge."
-echo "It's recommended to change this password using sudo usermod -p <your_password> mesh"
-sudo adduser --disabled-password mesh
-sudo usermod -aG sudo mesh
-su - mesh
-sudo usermod -p bridge mesh
 echo "Updating pi"
 sudo apt update
 sudo apt upgrade -y
