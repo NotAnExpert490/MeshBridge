@@ -17,9 +17,7 @@ sudo apt install mosquitto mosquitto-clients -y
 echo "Enabling node-red service"
 sudo systemctl enable nodered.service
 sudo systemctl stop nodered.service
-curl -X POST http://localhost:1880/flows \
--H "Content-Type: application/json" \
---data-binary ~/MeshBridge/meshflow.json
+sudo cp ~/MeshBridge/flows.json ~/.node-red/
 sudo systemctl start nodered.service
 echo "Enabling mosquitto service"
 sudo systemctl enable mosquitto
