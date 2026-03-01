@@ -10,7 +10,7 @@ echo "Installing mosquitto"
 sudo apt install mosquitto mosquitto-clients -y
 echo "Enabling node-red service"
 echo "Copying flow"
-node-red
+node-red -u ~/.node-red
 echo sudo cp ~/MeshBridge/flows.json ~/.node-red/
 sudo systemctl enable nodered.service
 echo "Enabling mosquitto service"
