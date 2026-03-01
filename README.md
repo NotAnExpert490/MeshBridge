@@ -2,13 +2,20 @@
 Node-red flow to bridge meshtastic and mesh core
 
 # Dependencies:
-The project requires Node-RED, Meshcore-CLI, Meshtastic-CLI and an mqtt broker (Current testing is using eqmx, but may switch to mosquitto later).
+The project requires Node-RED, Meshcore-CLI, Meshtastic-CLI and and mosquitto.
+
+These can be installed by running install.sh as explained in installation or manually using the sources below.
 
 - Meshcore-CLI: www.github.com/meshcore-dev/meshcore-cli
 - Meshtastic-CLI: https://meshtastic.org/docs/software/python/cli/
 - Node-RED: www.nodered.org
 - EQMX: https://docs.exmx.com/en/eqmx/latest/deploy/install-docker.html
-
+# Installation
+1. Ensure our system is up to date by running ``` sudo apt update && sudo apt upgrade ```
+2. Make sure git is installed, run the following ``` sudo apt install git ```
+3. Clone the meshbridge repo by running ``` git clone https://github.com/NotAnExpert490/MeshBridge.git ```
+4. Move to the meshbridge directory with ``` cd MeshBridge ```
+5. Run the installer script with ``` sudo bash install.sh ``` This will install all services and dependancies then reboot.
 # Radio configuration
 - As of right now the only major configuration to make is to set up mqtt on the meshtastic side node and point it at the broker.
 - MC side currently connects via ble and mt connects via web, but serial will be the ultimate gold standard.
