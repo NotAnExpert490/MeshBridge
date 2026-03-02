@@ -8,7 +8,7 @@ echo "Installing node-red"
 bash <(curl -sL https://github.com/node-red/linux-installers/releases/latest/download/update-nodejs-and-nodered-deb) --nodered-user=$USER --confirm-install --confirm-pi
 cd ~
 echo "Installing mosquitto"
-apt install mosquitto mosquitto-clients -y
+sudo apt install mosquitto mosquitto-clients -y
 echo "Enabling node-red service"
 echo "Copying flow"
 cp ~/MeshBridge/flows.json ~/.node-red/
@@ -17,8 +17,8 @@ echo "Enabling mosquitto service"
 sudo systemctl enable mosquitto
 cd ~
 echo "Installing python"
-apt install python3-pip -y
-apt install pipx -y
+sudo apt install python3-pip -y
+sudo apt install pipx -y
 echo "Installing meshcore-cli"
 pipx install meshcore-cli
 cd ~
