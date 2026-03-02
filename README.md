@@ -14,7 +14,7 @@ These can be installed by running install.sh as explained in installation or man
 1. Ensure our system is up to date by running ``` sudo apt update && sudo apt upgrade -y && sudo apt install git -y ```
 2. Clone the meshbridge repo by running ``` git clone https://github.com/NotAnExpert490/MeshBridge.git ```
 3. Move to the meshbridge directory with ``` cd MeshBridge ```
-4. Run the installer script with ``` sudo bash install.sh ``` This will install all services and dependancies then reboot.
+4. Run the installer script with ``` ./install.sh ``` This will install all services and dependancies then reboot.
 # Radio configuration
 - As of right now the only major configuration to make is to set up mqtt on the meshtastic side node and point it at the broker.
 - MC side currently connects via ble and mt connects via web, but serial will be the ultimate gold standard.
