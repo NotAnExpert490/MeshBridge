@@ -1,5 +1,6 @@
 !/bin/bash
 echo "Updating pi"
+sudo apt-get install locales-all
 sudo apt update
 sudo apt upgrade -y
 cd ~
