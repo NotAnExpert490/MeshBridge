@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 echo "Updating pi"
 sudo apt-get install locales-all
 sudo apt update
@@ -24,5 +24,6 @@ sudo pipx install meshcore-cli
 cd ~
 echo "Installing meshtastic-cli"
 sudo pipx install "meshtastic[cli]"
+pipx ensurepath
 sudo reboot
 
