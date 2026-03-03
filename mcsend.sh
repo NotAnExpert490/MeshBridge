@@ -1,2 +1,2 @@
 #!/bin/bash
-meshcli chan 1 "$*"
+~/.local/bin/meshcli -s $MC chan 1 "$*"
