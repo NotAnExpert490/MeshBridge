@@ -30,21 +30,14 @@ pipx ensurepath
 echo "Finding meshcore port"
 cd ~
 meshconf=~/.meshvars
-if [meshcli -s /dev/ttyACM0 sync_msgs ]
-then
-echo "Meshcore found on /dev/ttyACM0"
-echo 'MC="/dev/ttyACM0"' > "$testfile"
-echo 'MT="/dev/ttyACM1"' > "$testfile"
-else
-echo 'MT="/dev/ttyACM0"' > "$testfile"
-echo 'MC="/dev/ttyACM1"' > "$testfile"
-fi
+./MeshBridge/serialfix.sh
 echo "Serial configured"
 echo "Copying scripts to $HOME"
 cp ~/MeshBridge/mtsend.sh ~/
 cp ~/MeshBridge/mcsend.sh ~/
 cp ~/MeshBridge/mcread.sh ~/
 cp ~/MeshBridge/recovery.sh ~/
+cp ~/MeshBridge/rebootnodes.sh ~/
 echo "Done!"
 echo "Rebooting"
 #sudo reboot

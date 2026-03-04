@@ -70,6 +70,20 @@
         "sessionExpiry": ""
     },
     {
+        "id": "110474211367ad4f",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "bbs",
+        "name": "bbs",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    },
+    {
         "id": "8f889cae95fa95e6",
         "type": "mqtt in",
         "z": "2ed751de9360a76e",
@@ -302,7 +316,7 @@
         "type": "function",
         "z": "2ed751de9360a76e",
         "name": "To STR",
-        "func": "var buff = msg.payload\nvar str = buff.toString()\nstr = str.substring(31)\nmsg.payload = '\"' + str + '\"'\n//msg.payload = str\nreturn msg;\n",
+        "func": "var buff = msg.payload\nvar str = buff.toString()\nstr = str.substring(34)\nmsg.payload = '\"' + str + '\"'\n//msg.payload = str\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -313,7 +327,8 @@
         "y": 440,
         "wires": [
             [
-                "385bc85854a5ea58"
+                "385bc85854a5ea58",
+                "f1467b8f82ab94d2"
             ]
         ]
     },
@@ -353,7 +368,7 @@
         "id": "472fc14f226c862f",
         "type": "exec",
         "z": "2ed751de9360a76e",
-        "command": "./mtsend.sh",
+        "command": "./mtsend.sh ",
         "addpay": "payload",
         "append": "",
         "useSpawn": "true",
@@ -364,7 +379,9 @@
         "x": 2000,
         "y": 440,
         "wires": [
-            [],
+            [
+                "021966e3afacc321"
+            ],
             [
                 "03a93b65aea3304e",
                 "021966e3afacc321"
@@ -453,7 +470,8 @@
         "y": 240,
         "wires": [
             [
-                "ec5026dc550dd5a1"
+                "ec5026dc550dd5a1",
+                "52968302a5f58911"
             ]
         ]
     },
@@ -637,7 +655,8 @@
         "wires": [
             [
                 "71919494ac6b61a4",
-                "06cb7a59122d0de8"
+                "06cb7a59122d0de8",
+                "daf47e045439ee4e"
             ]
         ]
     },
@@ -1038,9 +1057,7 @@
         "x": 2120,
         "y": 380,
         "wires": [
-            [
-                "021966e3afacc321"
-            ],
+            [],
             [
                 "021966e3afacc321",
                 "03a93b65aea3304e"
@@ -1322,9 +1339,7 @@
             [
                 "aae5c12c38cda4fb"
             ],
-            [
-                "d93fda5ff0cb19c5"
-            ]
+            []
         ]
     },
     {
@@ -1403,7 +1418,7 @@
         "id": "d6901ab8c9615281",
         "type": "exec",
         "z": "2ed751de9360a76e",
-        "command": "aiov2_ctl LORA off && aiov2_ctl USB off && curl -d \"Meshbridge entered recovery mode\" notify.dewlab.io/mesh",
+        "command": "./rebootnodes.sh && curl -d \"Meshbridge entered recovery mode\" notify.dewlab.io/mesh",
         "addpay": "",
         "append": "",
         "useSpawn": "false",
@@ -1411,13 +1426,13 @@
         "winHide": false,
         "oldrc": false,
         "name": "",
-        "x": 3500,
+        "x": 3420,
         "y": 620,
         "wires": [
             [],
             [],
             [
-                "806c9d14d5c99901"
+                "24c2b3f1bc8713c8"
             ]
         ]
     },
@@ -1447,59 +1462,12 @@
         ]
     },
     {
-        "id": "806c9d14d5c99901",
-        "type": "delay",
-        "z": "2ed751de9360a76e",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 3180,
-        "y": 680,
-        "wires": [
-            [
-                "1bc5b96bba1423e0"
-            ]
-        ]
-    },
-    {
-        "id": "1bc5b96bba1423e0",
-        "type": "exec",
-        "z": "2ed751de9360a76e",
-        "command": "aiov2_ctl LORA on && aiov2_ctl USB on",
-        "addpay": "",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "",
-        "x": 3280,
-        "y": 740,
-        "wires": [
-            [],
-            [],
-            [
-                "24c2b3f1bc8713c8"
-            ]
-        ]
-    },
-    {
         "id": "24c2b3f1bc8713c8",
         "type": "delay",
         "z": "2ed751de9360a76e",
         "name": "",
         "pauseType": "delay",
-        "timeout": "10",
+        "timeout": "20",
         "timeoutUnits": "seconds",
         "rate": "1",
         "nbRateUnits": "1",
@@ -1511,7 +1479,7 @@
         "allowrate": false,
         "outputs": 1,
         "x": 3180,
-        "y": 800,
+        "y": 700,
         "wires": [
             [
                 "67ee4d4e59daf7c5"
@@ -1531,7 +1499,7 @@
         "finalize": "",
         "libs": [],
         "x": 3210,
-        "y": 860,
+        "y": 780,
         "wires": [
             [
                 "5558b3b4753fe3fb",
@@ -1557,7 +1525,7 @@
         "allowrate": false,
         "outputs": 2,
         "x": 3200,
-        "y": 920,
+        "y": 860,
         "wires": [
             [
                 "124b9aedf7f29b73"
@@ -1589,7 +1557,7 @@
         "id": "6e07e58f5cf43f9b",
         "type": "exec",
         "z": "2ed751de9360a76e",
-        "command": "aiov2_ctl LORA on && aiov2_ctl USB on && curl -d \"Meshbridge online\" notify.dewlab.io/mesh",
+        "command": "curl -d \"Meshbridge online\" notify.dewlab.io/mesh",
         "addpay": "",
         "append": "",
         "useSpawn": "false",
@@ -1597,7 +1565,7 @@
         "winHide": false,
         "oldrc": false,
         "name": "",
-        "x": 960,
+        "x": 830,
         "y": 660,
         "wires": [
             [],
@@ -1625,7 +1593,7 @@
         "allowrate": false,
         "outputs": 1,
         "x": 3180,
-        "y": 980,
+        "y": 920,
         "wires": [
             [
                 "af3b6d88e95cd16b"
@@ -1647,9 +1615,7 @@
         "x": 1210,
         "y": 780,
         "wires": [
-            [
-                "5558b3b4753fe3fb"
-            ]
+            []
         ]
     },
     {
@@ -1751,7 +1717,7 @@
         "op2": "No mqtt detected",
         "op1type": "nul",
         "op2type": "str",
-        "duration": "90",
+        "duration": "180",
         "extend": true,
         "overrideDelay": false,
         "units": "s",
@@ -1809,7 +1775,7 @@
         "oldrc": false,
         "name": "",
         "x": 3310,
-        "y": 1040,
+        "y": 1000,
         "wires": [
             [
                 "124b9aedf7f29b73"
@@ -1853,7 +1819,7 @@
         "id": "d7f24957692cc450",
         "type": "exec",
         "z": "2ed751de9360a76e",
-        "command": "curl -d \"System stable, Disabling safe mode\" notify.dewlab.io/mesh && rm ~/MeshBridge/lockout.txt && echo \"System stable\"",
+        "command": "curl -d \"System stable, Disabling safe mode\" notify.dewlab.io/mesh && rm ~lockout.txt && echo \"System stable\"",
         "addpay": "",
         "append": "",
         "useSpawn": "true",
@@ -1938,5 +1904,243 @@
             ],
             []
         ]
+    },
+    {
+        "id": "27bdada1d6e62ed7",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "multiple measurement points",
+        "func": "if (msg.payload.type != undefined) {\n    var frametype = msg.payload.type\n}\nif (msg.payload.from != undefined) {\n    var msgfrom = msg.payload.from\n}\nif (msg.payload.payload.longname != undefined) {\n    var longname = msg.payload.payload.longname\n}\nif (msg.payload.timestamp != undefined) {\n    var tor = msg.payload.timestamp\n}\n\nmsg.payload = [\n    {\n        measurement: \"frame\",\n        fields: {\n\n            frameType:frametype,\n            msgFrom:msgfrom,\n            longname:longname,\n            timeOfRecipt:tor\n           \n\n        },\n        tags:{\n            FrameType:frametype,\n            msgFrom:msgfrom,\n            longname:longname,\n            timeOfRecipt:tor\n        },\n        timestamp: new Date()\n    }\n];\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 120,
+        "wires": [
+            [
+                "c5dacfe05a538559"
+            ]
+        ]
+    },
+    {
+        "id": "c5dacfe05a538559",
+        "type": "influxdb batch",
+        "z": "2ed751de9360a76e",
+        "influxdb": "110474211367ad4f",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "bbs",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 620,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "3757de0a1a5cbb7f",
+        "type": "comment",
+        "z": "2ed751de9360a76e",
+        "name": "Needs modifying",
+        "info": "",
+        "x": 500,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "fb2a3422cf9c7452",
+        "type": "change",
+        "z": "2ed751de9360a76e",
+        "name": "Condition output",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.buff",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.channel",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "payload.from",
+                "pt": "msg",
+                "to": "4146000508",
+                "tot": "num"
+            },
+            {
+                "t": "move",
+                "p": "payload.buff",
+                "pt": "msg",
+                "to": "payload.payload",
+                "tot": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.buff",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.type",
+                "pt": "msg",
+                "to": "sendtext",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "acc62ebbbbd13a78",
+        "type": "mqtt out",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "topic": "89434/tac/2/json/mqtt/",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77dff47ade8636a0",
+        "x": 630,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "52968302a5f58911",
+        "type": "mqtt out",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "topic": "bridge/msg/mt2mc",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77dff47ade8636a0",
+        "x": 1820,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "f1467b8f82ab94d2",
+        "type": "mqtt out",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "topic": "bridge/msg/mc2mt",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77dff47ade8636a0",
+        "x": 1810,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "daf47e045439ee4e",
+        "type": "mqtt out",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "topic": "bridge/err",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "77dff47ade8636a0",
+        "x": 2620,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "37fee8ff65bd1a57",
+        "type": "inject",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 320,
+        "y": 820,
+        "wires": [
+            [
+                "c5a12f421bdca2b2"
+            ]
+        ]
+    },
+    {
+        "id": "c5a12f421bdca2b2",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "~/.local/bin/meshcli -s /dev/ttyACM1 floodadv",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Running stable",
+        "x": 540,
+        "y": 820,
+        "wires": [
+            [
+                "af2c161ce9925dd8"
+            ],
+            [
+                "af2c161ce9925dd8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "0cb77cb922cd2534",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-influxdb": "0.7.0"
+        }
     }
 ]
