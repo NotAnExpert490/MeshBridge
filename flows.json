@@ -72,7 +72,7 @@
     {
         "id": "110474211367ad4f",
         "type": "influxdb",
-        "hostname": "127.0.0.1",
+        "hostname": "192.168.1.5",
         "port": "8086",
         "protocol": "http",
         "database": "bbs",
@@ -81,6 +81,7 @@
         "tls": "",
         "influxdbVersion": "1.x",
         "url": "http://localhost:8086",
+        "timeout": "",
         "rejectUnauthorized": true
     },
     {
@@ -380,7 +381,8 @@
         "y": 440,
         "wires": [
             [
-                "021966e3afacc321"
+                "021966e3afacc321",
+                "0a66d5883711e3b9"
             ],
             [
                 "03a93b65aea3304e",
@@ -601,15 +603,21 @@
                 "vt": "str"
             },
             {
+                "t": "eq",
+                "v": "67151444",
+                "vt": "str"
+            },
+            {
                 "t": "else"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 3,
+        "outputs": 4,
         "x": 870,
         "y": 240,
         "wires": [
+            [],
             [],
             [],
             [
@@ -643,7 +651,7 @@
         "type": "function",
         "z": "2ed751de9360a76e",
         "name": "ErrorCt",
-        "func": "var gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\nvar errors = flow.get(\"errorCt\")\nerrors ++\nflow.set(\"errorCt\", errors)\nvar totalGated = gMT + gMC\nvar errorRate\nif(totalGated != 0){errorRate = errors / totalGated}\nelse{errorRate = errors}\nmsg.gateTot = totalGated\nmsg.gatedmt = gMT\nmsg.gatedmc = gMC\nmsg.errors = errors\nmsg.errorRate = errorRate\nreturn msg;",
+        "func": "var buff = msg.payload\nnode.warn(\"Main error func triggered\")\nvar gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\nvar errors = flow.get(\"errorCt\")\nerrors = errors + 1\nflow.set(\"errorCt\", errors)\nvar totalGated = gMT + gMC\nvar errorRate\nif(totalGated != 0){errorRate = errors / totalGated}\nelse{errorRate = errors}\nmsg.payload = {\n    gateTot: totalGated,\n    gatedmt: gMT,\n    gatedmc: gMC,\n    errors: errors,\n    errorRate: errorRate\n}\nnode.warn(msg)\nreturn msg",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -680,7 +688,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 2410,
+        "x": 2310,
         "y": 560,
         "wires": [
             [],
@@ -726,7 +734,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 2430,
+        "x": 2290,
         "y": 520,
         "wires": [
             [
@@ -752,7 +760,7 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "onceDelay": "1",
+        "onceDelay": "5",
         "topic": "",
         "payload": "",
         "payloadType": "date",
@@ -769,7 +777,7 @@
         "type": "function",
         "z": "2ed751de9360a76e",
         "name": " Init",
-        "func": "flow.set(\"errorCt\", 0)\nflow.set(\"gatedMT\", 0)\nflow.set(\"gatedMC\", 0)\nreturn msg;",
+        "func": "node.warn(\"Init triggered\");\nflow.set(\"errorCt\", 0)\nflow.set(\"gatedMT\", 0)\nflow.set(\"gatedMC\", 0)\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -789,19 +797,20 @@
         "type": "function",
         "z": "2ed751de9360a76e",
         "name": "gatedCt 2mc",
-        "func": "var errors = flow.get(\"errorCt\")\nvar gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\ngMC ++\nflow.set(\"gatedMC\", gMC)\nvar totalGated = gMT + gMC\nvar errorRate = errors / totalGated\nmsg.gateTot = \"Total gated: \" + totalGated\nmsg.gatedmt = \"Gated to mt: \" + gMT\nmsg.gatedmc = \"Gated to mc: \" + gMC\nmsg.errors = \"Errors: \" + errors\nmsg.errorRate = \"Errors / msg: \" + errorRate\nreturn msg;",
+        "func": "node.warn(\"Gated mc func triggered\");\nvar errors = flow.get(\"errorCt\")\nvar gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\ngMC ++\nflow.set(\"gatedMC\", gMC)\nvar totalGated = gMT + gMC\nvar errorRate = errors / totalGated\nmsg.payload = {\n    gateTot: totalGated,\n    gatedmt: gMT,\n    gatedmc: gMC,\n    errors: errors,\n    errorRate: errorRate\n}\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2010,
+        "x": 2110,
         "y": 160,
         "wires": [
             [
                 "7ba260e42f95fb58",
-                "b01bb036e504e605"
+                "b01bb036e504e605",
+                "daf47e045439ee4e"
             ]
         ]
     },
@@ -810,19 +819,20 @@
         "type": "function",
         "z": "2ed751de9360a76e",
         "name": "gatedCt 2mt",
-        "func": "var gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\nvar errors = flow.get(\"errorCt\")\ngMT ++\nflow.set(\"gatedMT\", gMT)\nvar totalGated = gMT + gMC\nvar errorRate = errors / totalGated\nmsg.gateTot = \"Total gated: \" + totalGated\nmsg.gatedmt = \"Gated to mt: \" + gMT\nmsg.gatedmc = \"Gated to mc: \" + gMC\nmsg.errors = \"Errors: \" + errors\nmsg.errorRate = \"Errors / msg: \" + errorRate\nreturn msg;\n",
+        "func": "node.warn(\"Gated mt func triggered\");\nvar gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\nvar errors = flow.get(\"errorCt\")\ngMT ++\nflow.set(\"gatedMT\", gMT)\nvar totalGated = gMT + gMC\nvar errorRate = errors / totalGated\nmsg.payload = {\n    gateTot: totalGated,\n    gatedmt: gMT,\n    gatedmc: gMC,\n    errors: errors,\n    errorRate: errorRate\n}\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2010,
+        "x": 2110,
         "y": 320,
         "wires": [
             [
                 "5bac026efbc7af96",
-                "b01bb036e504e605"
+                "b01bb036e504e605",
+                "daf47e045439ee4e"
             ]
         ]
     },
@@ -901,11 +911,11 @@
         "name": "",
         "scope": null,
         "uncaught": false,
-        "x": 2440,
-        "y": 620,
+        "x": 2260,
+        "y": 640,
         "wires": [
             [
-                "4903ce17e6109831"
+                "7d2d951e01658d78"
             ]
         ]
     },
@@ -943,12 +953,22 @@
                 "vt": "str"
             },
             {
+                "t": "cont",
+                "v": "$bridgekill",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "$bridgerestart",
+                "vt": "str"
+            },
+            {
                 "t": "else"
             }
         ],
         "checkall": "false",
         "repair": false,
-        "outputs": 6,
+        "outputs": 8,
         "x": 1390,
         "y": 460,
         "wires": [
@@ -966,6 +986,12 @@
             ],
             [
                 "2769697beed08e60"
+            ],
+            [
+                "809b49d69ee4354a"
+            ],
+            [
+                "db2fead2b04713c7"
             ],
             [
                 "c319fa727c3ce3bc"
@@ -1057,10 +1083,11 @@
         "x": 2120,
         "y": 380,
         "wires": [
-            [],
             [
-                "021966e3afacc321",
-                "03a93b65aea3304e"
+                "0a66d5883711e3b9"
+            ],
+            [
+                "021966e3afacc321"
             ],
             [
                 "5d44865dc87ccb9f"
@@ -1347,7 +1374,7 @@
         "type": "function",
         "z": "2ed751de9360a76e",
         "name": "ErrorCt",
-        "func": "var gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\nvar errors = flow.get(\"errorCt\")\nerrors ++\ngMC = gMC - 1\nflow.set(\"gatedMC,gMC\")\nflow.set(\"errorCt\", errors)\nvar totalGated = gMT + gMC\nvar errorRate\nif(totalGated != 0){errorRate = errors / totalGated}\nelse{errorRate = errors}\nmsg.gateTot = totalGated\nmsg.gatedmt = gMT\nmsg.gatedmc = gMC\nmsg.errors = errors\nmsg.errorRate = errorRate\nreturn msg;",
+        "func": "node.warn(\"MC error func triggered\");\nvar gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\nvar errors = flow.get(\"errorCt\")\nerrors = errors + 1\nflow.set(\"errorCt\", errors)\ngMC = gMC - 1\nflow.set(\"gatedMC\",gMC)\nvar totalGated = gMT + gMC\nvar errorRate\nif(totalGated != 0){errorRate = errors / totalGated}\nelse{errorRate = errors}\nmsg.payload = {\n    gateTot: totalGated,\n    gatedmt: gMT,\n    gatedmc: gMC,\n    errors: errors,\n    errorRate: errorRate\n}\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1360,7 +1387,8 @@
             [
                 "d93fda5ff0cb19c5",
                 "71919494ac6b61a4",
-                "06cb7a59122d0de8"
+                "06cb7a59122d0de8",
+                "daf47e045439ee4e"
             ]
         ]
     },
@@ -1560,7 +1588,7 @@
         "command": "curl -d \"Meshbridge online\" notify.dewlab.io/mesh",
         "addpay": "",
         "append": "",
-        "useSpawn": "false",
+        "useSpawn": "true",
         "timer": "",
         "winHide": false,
         "oldrc": false,
@@ -1615,7 +1643,9 @@
         "x": 1210,
         "y": 780,
         "wires": [
-            []
+            [
+                "5558b3b4753fe3fb"
+            ]
         ]
     },
     {
@@ -1717,7 +1747,7 @@
         "op2": "No mqtt detected",
         "op1type": "nul",
         "op2type": "str",
-        "duration": "180",
+        "duration": "30",
         "extend": true,
         "overrideDelay": false,
         "units": "s",
@@ -1819,7 +1849,7 @@
         "id": "d7f24957692cc450",
         "type": "exec",
         "z": "2ed751de9360a76e",
-        "command": "curl -d \"System stable, Disabling safe mode\" notify.dewlab.io/mesh && rm ~lockout.txt && echo \"System stable\"",
+        "command": "curl -d \"System stable, Disabling safe mode\" notify.dewlab.io/mesh && rm ~/lockout.txt && echo \"System stable\"",
         "addpay": "",
         "append": "",
         "useSpawn": "true",
@@ -1918,7 +1948,7 @@
         "finalize": "",
         "libs": [],
         "x": 380,
-        "y": 120,
+        "y": 160,
         "wires": [
             [
                 "c5dacfe05a538559"
@@ -1938,8 +1968,8 @@
         "retentionPolicyV18Flux": "",
         "org": "organisation",
         "bucket": "bucket",
-        "x": 620,
-        "y": 120,
+        "x": 630,
+        "y": 160,
         "wires": []
     },
     {
@@ -1949,7 +1979,7 @@
         "name": "Needs modifying",
         "info": "",
         "x": 500,
-        "y": 80,
+        "y": 120,
         "wires": []
     },
     {
@@ -1995,7 +2025,7 @@
                 "t": "set",
                 "p": "payload.type",
                 "pt": "msg",
-                "to": "sendtext",
+                "to": "textmessage",
                 "tot": "str"
             }
         ],
@@ -2007,7 +2037,10 @@
         "x": 360,
         "y": 40,
         "wires": [
-            []
+            [
+                "876d9a1ff43f9630",
+                "acc62ebbbbd13a78"
+            ]
         ]
     },
     {
@@ -2015,7 +2048,7 @@
         "type": "mqtt out",
         "z": "2ed751de9360a76e",
         "name": "",
-        "topic": "89434/tac/2/json/mqtt/",
+        "topic": "89523/public/2/json/mqtt/",
         "qos": "2",
         "retain": "",
         "respTopic": "",
@@ -2023,8 +2056,8 @@
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "77dff47ade8636a0",
-        "x": 630,
+        "broker": "e02c01c3309f9b2f",
+        "x": 640,
         "y": 40,
         "wires": []
     },
@@ -2078,8 +2111,8 @@
         "correl": "",
         "expiry": "",
         "broker": "77dff47ade8636a0",
-        "x": 2620,
-        "y": 740,
+        "x": 2820,
+        "y": 860,
         "wires": []
     },
     {
@@ -2136,7 +2169,247 @@
         ]
     },
     {
-        "id": "0cb77cb922cd2534",
+        "id": "e4b6f6483db40081",
+        "type": "inject",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Test mqtt send",
+        "payloadType": "str",
+        "x": 180,
+        "y": 40,
+        "wires": [
+            [
+                "fb2a3422cf9c7452"
+            ]
+        ]
+    },
+    {
+        "id": "876d9a1ff43f9630",
+        "type": "debug",
+        "z": "2ed751de9360a76e",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "809b49d69ee4354a",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "kill",
+        "func": "msg.payload = '\"' + \"Shutting down bridge\" + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1570,
+        "y": 840,
+        "wires": [
+            [
+                "5558b3b4753fe3fb",
+                "2f19ee55e908d621"
+            ]
+        ]
+    },
+    {
+        "id": "db2fead2b04713c7",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "restart",
+        "func": "msg.payload = '\"' + \"Rebooting\" + '\"'\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1570,
+        "y": 880,
+        "wires": [
+            [
+                "5558b3b4753fe3fb",
+                "c3b1109d4496c498"
+            ]
+        ]
+    },
+    {
+        "id": "2f19ee55e908d621",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "sudo shutdown",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 1760,
+        "y": 840,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "c3b1109d4496c498",
+        "type": "exec",
+        "z": "2ed751de9360a76e",
+        "command": "sudo reboot",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 1750,
+        "y": 880,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "842c797ad17e4abc",
+        "type": "mqtt in",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "topic": "89434/public/2/json/#",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e02c01c3309f9b2f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 360,
+        "y": 200,
+        "wires": [
+            [
+                "1b21e51d739bfe17",
+                "60c9cfa4cff20a54"
+            ]
+        ]
+    },
+    {
+        "id": "0a66d5883711e3b9",
+        "type": "switch",
+        "z": "2ed751de9360a76e",
+        "name": "",
+        "property": "payload.message",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "Command failed:",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 2230,
+        "y": 740,
+        "wires": [
+            [
+                "fa1f4887bc4b9f1a"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "fa1f4887bc4b9f1a",
+        "type": "function",
+        "z": "2ed751de9360a76e",
+        "name": "ErrorCt",
+        "func": "node.warn(\"MT error func triggered\");\nvar gMT = flow.get(\"gatedMT\")\nvar gMC = flow.get(\"gatedMC\")\nvar errors = flow.get(\"errorCt\")\ngMT = gMT - 1\nflow.set(\"gatedMT\",gMT)\nvar totalGated = gMT + gMC\nvar errorRate\nif(totalGated != 0){errorRate = errors / totalGated}\nelse{errorRate = errors}\nmsg.payload = {\n    gateTot: totalGated,\n    gatedmt: gMT,\n    gatedmc: gMC,\n    errors: errors,\n    errorRate: errorRate\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2380,
+        "y": 740,
+        "wires": [
+            [
+                "daf47e045439ee4e",
+                "71919494ac6b61a4"
+            ]
+        ]
+    },
+    {
+        "id": "7d2d951e01658d78",
+        "type": "debug",
+        "z": "2ed751de9360a76e",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2460,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "5214031c9733b321",
+        "type": "inject",
+        "z": "2ed751de9360a76e",
+        "name": "Test error",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Test error",
+        "payloadType": "str",
+        "x": 2340,
+        "y": 860,
+        "wires": [
+            [
+                "4903ce17e6109831"
+            ]
+        ]
+    },
+    {
+        "id": "88bc9096a1233044",
         "type": "global-config",
         "env": [],
         "modules": {

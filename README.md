@@ -36,6 +36,8 @@ By default the flow adds the messaging nodes name on node id in the case of mt -
 - $help: Lists commands that the bridge accepts.
 - $bbshelp: Lists specific help for interacting with bridged bbs's and bots.
 - $bridgestat: Lists runtime statistics for the bridge.
+- $bridgekill: Sends sudo shutdown command to pi.
+- $bridgerestart: Sends sudo restart command to pi.
 
 # Potential issues with this approach
 - Since each cli command requires a handshake with the node it takes a couple seconds to send a message. This can lead to slow bridging.
@@ -51,6 +53,7 @@ By default the flow adds the messaging nodes name on node id in the case of mt -
 - More detailed metrics will be needed to figure out issues and improve performance.
 - There were initally concerns about rate limiting exceeding buffer limits. Through practice this has been found not to be an issue. By setting the read request frequency 1 second longer than the write lockout the que clears it's self pretty quickly.
 - It is still unclear what overall effect bridging has on the utilization of either mesh. Current rate limiting is set at 3 messages / minute. More testing and research will be needed to determine if it causes issues, but it doesn't seem to have any obvious effects on mesh performance.
+- There are failure modes where all commands return 0 and there is no apparent sign of failure outside of a 3rd party observer. More work will be needed for deep error detection and recovery.
 
 # ChangeLog
 - 2/20/26 -0.0.1: Added anylitics for number of messages bridged as well as number of errors. Fixed bug where numbers wouldn't foreward from mt -> mc
@@ -59,3 +62,4 @@ By default the flow adds the messaging nodes name on node id in the case of mt -
 - 2/27/26 -0.0.4: Tweaked reboot handler to be less panicky on the mesh, Moved pi reboot to recovery.sh to check for a previous reboot and cancel infinite boot loops before they get out of hand. Also added monitor to check for messages on mt to detect mqtt and wifi issues.
 - 2/28/26 -0.0.5: Started working on portable version which doesnt rely on hard coded values for things like usb paths, instead using setup scripts and config files. Also started working on installer script.
 - 3/3/26  -0.1.0: Installer script seems to work. All mentions of /home/clockwork/ replaced with ~/ and paths hardened in general. Still has bugs and install.sh still cant set usb paths automatically. Created serialfix.sh to inject hardcoded values for now. Also created rebootnodes.sh to replace power cycling via the aiov2 board with a reboot request sent to the nodes.
+- 3/10/26 -0.1.1: Created and fixed bug where error handler gets caught in recursive loop. Piped error messages to mqtt topic bridge/err to be picked up by grafana for logging elsewhere. Added $bridgekill and $bridgerestart to shutdown or reboot the pi respectively. Other minor tweaks.
